@@ -2,6 +2,7 @@ package com.testing;
 
 import org.junit.jupiter.api.*;
 
+import java.time.Duration;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,6 +10,11 @@ import static org.junit.jupiter.api.Assertions.*;
 //@DisplayNameGeneration(DisplayNameGenerator.Simple.class)
 //@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class) test_names
 //@DisplayNameGeneration(DisplayNameGenerator.IndicativeSentences.class)
+
+//@TestMethodOrder(MethodOrderer.DisplayName.class)
+//@TestMethodOrder(MethodOrderer.MethodName.class)
+//@TestMethodOrder(MethodOrderer.Random.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DemoUtilsTest {
 
     DemoUtils demoUtils;
@@ -34,6 +40,7 @@ public class DemoUtilsTest {
         System.out.println("@AfterAll");
     }
 
+    @Order(1)
     @Test
     @DisplayName("Equals And Not Equals")
     void testEqualsAndNotEquals() {
@@ -43,6 +50,7 @@ public class DemoUtilsTest {
         assertNotEquals(6, demoUtils.add(1, 9));
     }
 
+    @Order(2)
     @Test
     @DisplayName("Null And Not Null")
     void testNUllAndNotNull() {
@@ -55,6 +63,7 @@ public class DemoUtilsTest {
         assertNotNull(demoUtils.checkNull(str2));
     }
 
+    @Order(3)
     @Test
     void testSameAndNotSame() {
         //given
@@ -66,6 +75,7 @@ public class DemoUtilsTest {
         assertNotSame(str, demoUtils.getAcademy(), "Objects should not refer to the same object");
     }
 
+    @Order(4)
     @Test
     void testTrueFalse() {
         //given
@@ -79,6 +89,7 @@ public class DemoUtilsTest {
         assertFalse(demoUtils.isGreater(gradeTwo, gradeOne));
     }
 
+    @Order(5)
     @Test
     void testArrayEquals() {
         //given
@@ -89,6 +100,7 @@ public class DemoUtilsTest {
         assertArrayEquals(stringArray, demoUtils.getFirstThreeLettersOfAlphabet(), "Array should be the same");
     }
 
+    @Order(6)
     @Test
     void testIterableEquals() {
         //given
@@ -100,6 +112,8 @@ public class DemoUtilsTest {
         assertIterableEquals(list, demoUtils.getAcademyInList(), "Expected list should be same as actual list");
     }
 
+    @Order(7)
+    @DisplayName("LinesMatch")
     @Test
     void testLinesMatch() {
         //given
@@ -111,5 +125,26 @@ public class DemoUtilsTest {
         assertLinesMatch(list, demoUtils.getAcademyInList(), "Lines should match");
     }
 
+    @Order(8)
+    @DisplayName("Throws and does not throw")
+    @Test
+    void testThrowException() {
+        assertThrows(Exception.class, () -> {
+            demoUtils.throwException(-1);
+        }, "Should throw exception");
+
+        assertDoesNotThrow(() -> {
+            demoUtils.throwException(5);
+        }, "Should not throw exception");
+    }
+
+    @Order(9)
+    @DisplayName("Timeout")
+    @Test
+    void testCheckTimeout() {
+        assertTimeoutPreemptively(Duration.ofSeconds(3), () -> {
+            demoUtils.checkTimeout();
+        }, "Method should execute in 3 seconds");
+    }
 
 }
