@@ -147,4 +147,11 @@ public class DemoUtilsTest {
         }, "Method should execute in 3 seconds");
     }
 
+    @Order(10)
+    @DisplayName("Timeout")
+    @Test
+    void testMultiply() {
+        assertEquals(12, demoUtils.multiply(4,3), "4*3 must be 12");
+    }
+
 }
